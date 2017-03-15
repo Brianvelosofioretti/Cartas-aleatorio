@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
@@ -43,37 +44,36 @@ public class Metodos {
     }
 
     public void cargarArray() {//se llenan los array de cada jugador con una porcion del array baraja
-        //Collections.shuffle(baraja);
+        Collections.shuffle(baraja);//Desordenamos la baraja 
         JOptionPane.showMessageDialog(null, "Introduce Nombre Jugador");
-        ju1 = new Jugador(calculo.pedirString(), jugador1 = new ArrayList(baraja.subList(0, 9)));// 0= posicion inicial y final en el array 
-        ju2 = new Jugador(calculo.pedirString(), jugador2 = new ArrayList(baraja.subList(9, 21)));
-        amosarManoJugador(jugador2);
+        ju1 = new Jugador(calculo.pedirString(), jugador1 = new ArrayList(baraja.subList(0, 9)));// 0= posicion inicial y 9 posicion final en el array 
+        ju2 = new Jugador(calculo.pedirString(), jugador2 = new ArrayList(baraja.subList(9, 21)));// 9= posicion inicial y 21 posicion final en el array 
+
     }
 
     public void pares(List<Carta> jugador) {
 
         Carta carta = new Carta();
         for (int j = 0; j < jugador.size(); j++) {//carta a comparar            
-            carta = jugador.get(j);//*
+
             for (int i = 0; i < jugador.size(); i++) {//comparacion con el resto de la mano
-                if (carta.getNumero() == jugador.get(i).getNumero() )
-                        if(carta.equals(jugador.get(i)) == false) {
-                    jugador.get(j).setSuerte(true);
-                    jugador.get(i).setSuerte(true);
-                        }
-                
+                if (jugador.get(j).getNumero() == jugador.get(i).getNumero()) {
+                    if (jugador.get(j).equals(jugador.get(i)) == false) {
+                        jugador.get(j).setSuerte(true);
+                        jugador.get(i).setSuerte(true);
+                    }
+                }
+
             }
         }
 
     }
 
     public void eliminar(List<Carta> jugador) {
-        System.out.println(jugador.size());
-        for (int y = 0; y < jugador.size(); y++) {           
-            if (jugador.get(y).isSuerte() == true) {
-                System.out.println("********"+jugador.get(y));
-                
-                jugador.remove(y);
+        Iterator<Carta> g = jugador.listIterator();
+        while (g.hasNext()) {
+            if (g.next().isSuerte() == true) {
+                g.remove();
             }
 
         }
@@ -87,21 +87,21 @@ public class Metodos {
         } catch (Exception ex) {
             System.out.println("Robar debe ser < " + lista.size());
         }
-        lista.remove(num - 1);
+        lista2.remove(num - 1);
         pares(lista);
         eliminar(lista);
     }
 
     public void ganador() {
         if (jugador1.isEmpty() == true) {
-            System.out.println("Ha ganado " + ju1.getNombre());
+            JOptionPane.showMessageDialog(null, "Ha ganado " + ju1.getNombre());
         } else {
-            System.out.println("Ha ganado " + ju2.getNombre());
+            JOptionPane.showMessageDialog(null, "Ha ganado " + ju2.getNombre());
         }
     }
 
     public void turnos() {
-        amosarManoJugador(jugador1);
+
         pares(jugador1);
         pares(jugador2);
         eliminar(jugador2);
@@ -109,11 +109,13 @@ public class Metodos {
         do {
             JOptionPane.showMessageDialog(null, "Turno jugador 1");
             robar(jugador1, jugador2);
-            amosarManoJugador(jugador1);
-            JOptionPane.showMessageDialog(null, "Turno jugador 2");
-            robar(jugador2, jugador1);
-            amosarManoJugador(jugador2);
-        } while (jugador1.isEmpty() == false || jugador2.isEmpty() == false);
+            if (jugador1.isEmpty() == false) {
+
+                JOptionPane.showMessageDialog(null, "Turno jugador 2");
+                robar(jugador2, jugador1);
+            }
+
+        } while (jugador1.isEmpty() == false && jugador2.isEmpty() == false);
 
     }
 

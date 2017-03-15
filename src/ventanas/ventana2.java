@@ -21,10 +21,9 @@ public class ventana2 extends javax.swing.JFrame {
      */
     public ventana2() {
         initComponents();
-         this.setLocationRelativeTo(null);// pantalla al centro
+        this.setLocationRelativeTo(null);// pantalla al centro
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -65,15 +64,15 @@ public class ventana2 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       System.exit(0);
+        System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         Metodos met = new Metodos();
+        Metodos met = new Metodos();
         met.llenarBaraja("C:\\Users\\Brian\\Desktop\\cartas.txt");
         met.cargarArray();
-       met.turnos();
-       met.ganador();
+        met.turnos();
+        met.ganador();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

@@ -12,9 +12,11 @@ import java.util.Objects;
  * @author acomesanavila
  */
 public class Carta {
+
     int numero;
     String palo;
-    boolean suerte=false;
+    boolean suerte = false;
+
     public Carta() {
     }
 
@@ -26,8 +28,6 @@ public class Carta {
     public boolean isSuerte() {
         return suerte;
     }
-
-
 
     public void setSuerte(boolean suerte) {
         this.suerte = suerte;
@@ -51,7 +51,7 @@ public class Carta {
 
     @Override
     public String toString() {
-        return numero+","+palo+ suerte+"|";
+        return numero + "," + palo;
     }
 
     @Override
@@ -65,23 +65,20 @@ public class Carta {
     public boolean equals(Object obj) {
         boolean aux = false;
         if (this == obj) {
-            aux=true;
+            aux = true;
         }
         if (obj == null) {
-           aux=false;
+            aux = false;
         }
         if (getClass() != obj.getClass()) {
-            aux= false;
+            aux = false;
         }
         final Carta other = (Carta) obj;
         if (!Objects.equals(this.palo, other.palo)) {
-            aux= false;
+            aux = false;
         }
-        
+
         return aux;
     }
 
-
-
-    
 }

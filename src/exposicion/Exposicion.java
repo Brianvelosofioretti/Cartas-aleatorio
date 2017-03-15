@@ -18,12 +18,12 @@ public class Exposicion {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-    
-       interfaz interfaz=new interfaz();
-       interfaz.setVisible(true);
-       ventana2 ventana=new ventana2();
-       ventana.setVisible(true);
-        
+
+        interfaz interfaz = new interfaz();
+        interfaz.setVisible(true);
+        ventana2 ventana = new ventana2();
+        ventana.setVisible(true);
+
     }
-    
+
 }
