@@ -5,6 +5,8 @@
  */
 package ventanas;
 
+import exposicion.Metodos;
+
 /**
  *
  * @author Usuario
@@ -16,7 +18,7 @@ public class interfaz extends javax.swing.JFrame {
      */
     public interfaz() {
         initComponents();
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);//centrar pantalla
     }
 
     /**
@@ -60,7 +62,8 @@ public class interfaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      ventana2 Empezar=new ventana2();
+  
+        ventana2 Empezar=new ventana2();//pasar a ventana 2
       Empezar.setVisible(true);
       this.setVisible(false);
       
