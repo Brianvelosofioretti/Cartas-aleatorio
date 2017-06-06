@@ -19,28 +19,28 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import operaciones.operaciones;
-
 
 /**
  *
  * @author acomesanavila
  */
-public class  Metodos {
-    
-    public static String nombre=null;
+public class Metodos {
+
+    public static int turno = 0;
+
+    public static String nombre = null;
     private Statement stmt = null;
-    
-     private  Connection c = null;
+
+    private Connection c = null;
 
     ArrayList<Carta> baraja = new ArrayList();//llenar con todas las cartas
-    ArrayList<Carta> jugador1;
-    ArrayList<Carta> jugador2;
+    public static ArrayList<Carta> jugador1;
+    public static ArrayList<Carta> jugador2;
     Scanner sc;
-    Jugador ju1, ju2;
+    public static Jugador ju1, ju2;
 
     public void amosar() {
         for (int i = 0; i < baraja.size(); i++) {
@@ -79,6 +79,7 @@ public class  Metodos {
 
             }
         }
+        eliminar(jugador);
 
     }
 
@@ -98,7 +99,7 @@ public class  Metodos {
         try {
             lista.add(lista2.get(num - 1));
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,"Robar debe ser < " + lista.size());
+            JOptionPane.showMessageDialog(null, "Robar debe ser < " + lista.size());
         }
         lista2.remove(num - 1);
         pares(lista);
@@ -106,14 +107,14 @@ public class  Metodos {
     }
 
     public void ganador() {
-        if (jugador1.isEmpty() == true) {
+        if (jugador1.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ha ganado " + ju1.getNombre());
-            nombre=ju1.getNombre();
-        } else {
+            nombre = ju1.getNombre();
+        } else if (jugador2.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ha ganado " + ju2.getNombre());
-            nombre=ju2.getNombre();
+            nombre = ju2.getNombre();
         }
-        
+
     }
 
     public void turnos() {
@@ -151,92 +152,118 @@ public class  Metodos {
         }
 
     }
-    
-    public void conectaBase(){
-        
+
+    public void conectaBase() {
+
         try {
-            
+
             c = DriverManager.getConnection("jdbc:sqlite:BaseCartas.db");//nombre y driver de la base de datos
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-         JOptionPane.showMessageDialog(null,"Base de datos conectada");
+        JOptionPane.showMessageDialog(null, "Base de datos conectada");
     }
-   
-     public void creaTabla() {
+
+    public void creaTabla() {
         try {
             stmt = c.createStatement();
 
-             String sql = "CREATE TABLE Ganadores  "
+            String sql = "CREATE TABLE Ganadores  "
                     + "(Nombre TEXT PRIMARY KEY     NOT NULL,"
-            
                     + " Victorias            INT     NOT NULL )";
-            
-  
+
             stmt.executeUpdate(sql);
             stmt.close();
-           
 
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-        JOptionPane.showMessageDialog(null,"Tabla creada correctamente");
+        JOptionPane.showMessageDialog(null, "Tabla creada correctamente");
     }
-     public void insertar() {                                         
-    
-       
+
+    public void insertar() {
+
         Connection c = null;
         Statement stmt = null;
         try {
-             c = DriverManager.getConnection("jdbc:sqlite:BaseCartas.db");
+            c = DriverManager.getConnection("jdbc:sqlite:BaseCartas.db");
             stmt = c.createStatement();
             c.setAutoCommit(false);
             String sql = "INSERT INTO Ganadores (Nombre,Victorias)"
                     + "VALUES("
-                    + "'" +nombre+ "'"
+                    + "'" + nombre + "'"
                     + ","
                     + 1
                     + ");";
-            
+
             stmt.executeUpdate(sql);
 
             stmt.close();
             c.commit();//guardamos cambios
 
         } catch (Exception e) {
-            int victorias=0;
+            int victorias = 0;
             try {
-     
-             
-                     
-                ResultSet rs = stmt.executeQuery("select Victorias from ganadores where nombre='" + nombre + "';");
+
+                ResultSet rs = stmt.executeQuery("select Victorias from Ganadores where nombre='" + nombre + "';");
                 while (rs.next()) {
-                    victorias=rs.getInt("Victorias");
-                    
+                    victorias = rs.getInt("Victorias");
+
                 }
                 rs.close();
-               stmt = c.createStatement();
-            c.setAutoCommit(false);
                 stmt = c.createStatement();
+                c.setAutoCommit(false);
+
                 String sql = "UPDATE Ganadores set Victorias"
-                        + " = " + (victorias+1)
+                        + " = " + (victorias + 1)
                         + " where Nombre ='"
                         + nombre + "';";
-           stmt.executeUpdate(sql);
-            c.commit();
-            stmt.close();
-                
+                stmt.executeUpdate(sql);
+                c.commit();
+                stmt.close();
+
             } catch (SQLException ex) {
                 System.out.println("fallo");
             }
 
         }
-        
-    }                                        
+
+    }
+
+    public void cambioVentana(ArrayList ju1, ArrayList ju2, JTextArea area, JTextArea area2) {
+        String algo = "";
+        String oculta = "";
+        if (turno == 0) {
+            for (int i = 0; i < Metodos.jugador1.size(); i++) {
+                algo = algo + "\n" + Metodos.jugador1.get(i).toString();
+                area.setText(algo);
+
+            }
+            algo = "";
+            for (int i = 0; i < Metodos.jugador2.size(); i++) {
+                oculta = oculta + "\n" + "*****";
+                area2.setText(oculta);
+
+            }
+            oculta = "";
+
+        } else {
+
+            for (int i = 0; i < Metodos.jugador2.size(); i++) {
+                algo = algo + "\n" + Metodos.jugador2.get(i).toString();
+                area.setText(algo);
+
+            }
+            algo = "";
+            for (int i = 0; i < Metodos.jugador1.size(); i++) {
+                oculta = oculta + "\n" + "*****";
+                area2.setText(oculta);
+
+            }
+            oculta = "";
+        }
+
+    }
 }
-    
-    
-
-

@@ -6,9 +6,18 @@
 package ventanas;
 
 import exposicion.Metodos;
-import exposicion.objetos.Carta;
-import exposicion.objetos.Jugador;
+import static exposicion.Metodos.jugador1;
+import static exposicion.Metodos.jugador2;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static ventanas.TablaGanadores.Tabla;
 
 /**
  *
@@ -16,12 +25,14 @@ import java.util.ArrayList;
  */
 public class ventana2 extends javax.swing.JFrame {
 
+    ArrayList<String> ganador = new ArrayList();
+
     /**
      * Creates new form ventana2
      */
     public ventana2() {
         initComponents();
-        this.setLocationRelativeTo(null);// pantalla al centro
+        this.setLocationRelativeTo(null);//centrar pantalla
     }
 
     @SuppressWarnings("unchecked")
@@ -79,22 +90,49 @@ public class ventana2 extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         hide();//ocultar ventana
         Metodos met = new Metodos();
-        
+
         met.llenarBaraja("cartas.txt");
         met.cargarArray();
-        met.turnos();
-        met.ganador();
-        met.insertar();
-       
-        
-      
+        ventanaJugar ven = new ventanaJugar();
+        ven.setVisible(true);
+
+        met.cambioVentana(jugador1, jugador2, ventanaJugar.texto, ventanaJugar.texto2);
+        met.pares(jugador2);
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       TablaGanadores tab=new TablaGanadores();
-       this.setVisible(false);
-       tab.setVisible(true);
-       
+        TablaGanadores tab = new TablaGanadores();
+        this.setVisible(false);
+        tab.setVisible(true);
+
+        Statement stmt = null;
+        Connection c = null;
+        int a = 0;
+        int b = 0;
+        try {
+
+            c = DriverManager.getConnection("jdbc:sqlite:BaseCartas.db");
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Ganadores;");
+            while (rs.next()) {
+                Tabla.setValueAt(String.valueOf(rs.getString("Nombre")), a, b);
+                b++;
+                String nombre = rs.getString("Nombre");
+                ganador.add(nombre);
+
+                Tabla.setValueAt(String.valueOf(rs.getInt("Victorias")), a, b);
+                a++;
+                b = 0;
+            }
+            rs.close();
+            stmt.close();
+            c.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(TablaGanadores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

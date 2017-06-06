@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * @author acomesanavila
  */
 public class Jugador {
+
     private String nombre;
     private ArrayList mano;
 
@@ -43,5 +44,5 @@ public class Jugador {
     public String toString() {
         return "Jugador{" + "nombre=" + nombre + ", mano=" + mano + '}';
     }
-    
+
 }

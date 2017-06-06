@@ -5,7 +5,6 @@
  */
 package exposicion;
 
-import ventanas.interfaz;
 import ventanas.ventana2;
 
 /**
@@ -18,11 +17,13 @@ public class Exposicion {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-      
+
 //        interfaz interfaz = new interfaz();
 //        interfaz.setVisible(true);
-//        ventana2 ventana = new ventana2();
-//        ventana.setVisible(true);
+        Metodos met = new Metodos();
+
+        ventana2 ventana = new ventana2();
+        ventana.setVisible(true);
 
     }
 

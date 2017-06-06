@@ -5,30 +5,18 @@
  */
 package ventanas;
 
-import static exposicion.Metodos.nombre;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-
 /**
  *
  * @author brian-pc
  */
 public class TablaGanadores extends javax.swing.JFrame {
 
-    ArrayList<String> ganador;
-
     /**
      * Creates new form TablaGanadores
      */
     public TablaGanadores() {
         initComponents();
+        this.setLocationRelativeTo(null);//centrar pantalla
     }
 
     /**
@@ -44,8 +32,8 @@ public class TablaGanadores extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        mostrar = new javax.swing.JButton();
-        reiniciar = new javax.swing.JButton();
+        salir = new javax.swing.JButton();
+        volver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,17 +54,17 @@ public class TablaGanadores extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 36)); // NOI18N
         jLabel1.setText("Ganadores");
 
-        mostrar.setText("Mostrar estadisticas");
-        mostrar.addActionListener(new java.awt.event.ActionListener() {
+        salir.setText("Salir");
+        salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mostrarActionPerformed(evt);
+                salirActionPerformed(evt);
             }
         });
 
-        reiniciar.setText("Actualizar estadisticas");
-        reiniciar.addActionListener(new java.awt.event.ActionListener() {
+        volver.setText("Volver");
+        volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reiniciarActionPerformed(evt);
+                volverActionPerformed(evt);
             }
         });
 
@@ -91,14 +79,14 @@ public class TablaGanadores extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(69, 69, 69)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(76, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(mostrar)
-                .addGap(56, 56, 56)
-                .addComponent(reiniciar)
-                .addGap(101, 101, 101))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(67, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(106, 106, 106)
+                .addComponent(volver, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(111, 111, 111))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,12 +94,12 @@ public class TablaGanadores extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(65, 65, 65)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(mostrar)
-                    .addComponent(reiniciar))
-                .addGap(21, 21, 21))
+                    .addComponent(salir)
+                    .addComponent(volver))
+                .addGap(24, 24, 24))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -128,62 +116,16 @@ public class TablaGanadores extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void mostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarActionPerformed
-        Statement stmt = null;
-        Connection c = null;
-        int a = 0;
-        int b = 0;
-        try {
+    private void volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volverActionPerformed
+        ventana2 ven = new ventana2();
+        ven.setVisible(true);
+        this.setVisible(false);
 
-            c = DriverManager.getConnection("jdbc:sqlite:BaseCartas.db");
-            stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Ganadores;");
-            while (rs.next()) {
-                Tabla.setValueAt(String.valueOf(rs.getString("Nombre")), a, b);
-                b++;
-                ganador.add(rs.getString("Nombre"));
-                Tabla.setValueAt(String.valueOf(rs.getInt("Victorias")), a, b);
-                a++;
-                b = 0;
-            }
-            rs.close();
-            stmt.close();
-            c.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(TablaGanadores.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_mostrarActionPerformed
+    }//GEN-LAST:event_volverActionPerformed
 
-    private void reiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reiniciarActionPerformed
-        // TODO add your handling code here:
-        ganador = new ArrayList();
-        Connection c = null;
-        int victorias=0;
-        Statement stmt = null;
-        try {
-            for (int i = 0; i < ganador.size(); i++) {
-                if (nombre.equals(ganador.get(i))) {
-                    c = DriverManager.getConnection("jdbc:sqlite:BaseCartas.db");
-                    stmt = c.createStatement();
-                    ResultSet rs = stmt.executeQuery("select victorias from ganadores where nombre='" + nombre + "';");
-                    while (rs.next()) {
-                        victorias=rs.getInt("Victorias");
-            
-                    }
-                    String sql = "UPDATE Trabajadores set victorias"
-                            + " = " + (victorias+1)
-                            + " where nombre = "
-                            + nombre + ";";
-                    stmt.executeUpdate(sql);
-                    stmt.close();
-                }
-            }
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        }
-        System.out.println("Update terminado");
-    }//GEN-LAST:event_reiniciarActionPerformed
+    private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_salirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,11 +165,11 @@ public class TablaGanadores extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable Tabla;
+    public static javax.swing.JTable Tabla;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton mostrar;
-    private javax.swing.JButton reiniciar;
+    private javax.swing.JButton salir;
+    private javax.swing.JButton volver;
     // End of variables declaration//GEN-END:variables
 }
