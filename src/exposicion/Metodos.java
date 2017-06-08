@@ -233,15 +233,15 @@ public class Metodos {
     }
 
     public void cambioVentana(ArrayList ju1, ArrayList ju2, JTextArea area, JTextArea area2) {
-        String algo = "";
+        String visible = "";
         String oculta = "";
         if (turno == 0) {
             for (int i = 0; i < Metodos.jugador1.size(); i++) {
-                algo = algo + "\n" + Metodos.jugador1.get(i).toString();
-                area.setText(algo);
+                visible = visible + "\n" + Metodos.jugador1.get(i).toString();
+                area.setText(visible);
 
             }
-            algo = "";
+            visible = "";
             for (int i = 0; i < Metodos.jugador2.size(); i++) {
                 oculta = oculta + "\n" + "*****";
                 area2.setText(oculta);
@@ -252,11 +252,11 @@ public class Metodos {
         } else {
 
             for (int i = 0; i < Metodos.jugador2.size(); i++) {
-                algo = algo + "\n" + Metodos.jugador2.get(i).toString();
-                area.setText(algo);
+                visible = visible + "\n" + Metodos.jugador2.get(i).toString();
+                area.setText(visible);
 
             }
-            algo = "";
+            visible = "";
             for (int i = 0; i < Metodos.jugador1.size(); i++) {
                 oculta = oculta + "\n" + "*****";
                 area2.setText(oculta);

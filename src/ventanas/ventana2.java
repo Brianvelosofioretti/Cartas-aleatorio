@@ -14,7 +14,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static ventanas.TablaGanadores.Tabla;
@@ -25,7 +24,7 @@ import static ventanas.TablaGanadores.Tabla;
  */
 public class ventana2 extends javax.swing.JFrame {
 
-    ArrayList<String> ganador = new ArrayList();
+   
 
     /**
      * Creates new form ventana2
@@ -39,9 +38,9 @@ public class ventana2 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        salir = new javax.swing.JButton();
+        jugar = new javax.swing.JButton();
+        victorias = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -49,29 +48,29 @@ public class ventana2 extends javax.swing.JFrame {
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setText("Salir");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        salir.setText("Salir");
+        salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                salirActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 140, 150, 60));
+        getContentPane().add(salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 140, 150, 60));
 
-        jButton2.setText("Jugar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jugar.setText("Jugar");
+        jugar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jugarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 150, 60));
+        getContentPane().add(jugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 150, 60));
 
-        jButton3.setText("Victorias");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        victorias.setText("Victorias");
+        victorias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                victoriasActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(251, 254, 150, 60));
+        getContentPane().add(victorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(251, 254, 150, 60));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/menu2.jpg"))); // NOI18N
@@ -83,11 +82,11 @@ public class ventana2 extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
         System.exit(0);//Boton para salir de la ventana
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_salirActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jugarActionPerformed
         hide();//ocultar ventana
         Metodos met = new Metodos();
 
@@ -99,9 +98,9 @@ public class ventana2 extends javax.swing.JFrame {
         met.cambioVentana(jugador1, jugador2, ventanaJugar.texto, ventanaJugar.texto2);
         met.pares(jugador2);
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jugarActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void victoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_victoriasActionPerformed
         TablaGanadores tab = new TablaGanadores();
         this.setVisible(false);
         tab.setVisible(true);
@@ -114,12 +113,12 @@ public class ventana2 extends javax.swing.JFrame {
 
             c = DriverManager.getConnection("jdbc:sqlite:BaseCartas.db");
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Ganadores;");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Ganadores order by victorias desc;");
             while (rs.next()) {
                 Tabla.setValueAt(String.valueOf(rs.getString("Nombre")), a, b);
                 b++;
                 String nombre = rs.getString("Nombre");
-                ganador.add(nombre);
+                
 
                 Tabla.setValueAt(String.valueOf(rs.getInt("Victorias")), a, b);
                 a++;
@@ -133,7 +132,7 @@ public class ventana2 extends javax.swing.JFrame {
         }
 
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_victoriasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -171,10 +170,10 @@ public class ventana2 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JButton jugar;
+    private javax.swing.JButton salir;
+    private javax.swing.JButton victorias;
     // End of variables declaration//GEN-END:variables
 }
